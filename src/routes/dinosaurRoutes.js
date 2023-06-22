@@ -7,14 +7,14 @@ router
         res.send('<h1>Welcome to the Dino API!</h1>');
     })
 
-    .get('/api/dinosaurs', dinosaurController.getAllDinosaurs)
+    .get('/dinosaurs', dinosaurController.getAllDinosaurs)
 
-    .get('/api/dinosaurs/:id', dinosaurController.getDinosaurById)
+    .get('/dinosaurs/:id', dinosaurController.getDinosaurById)
 
-    .post('/api/dinosaurs', dinosaurController.createDinosaur)
+    .post('/dinosaurs', dinosaurController.createDinosaur)
 
-    .put('/api/dinosaurs/:id', dinosaurController.updateDinosaur)
+    .patch('/dinosaurs/:id', dinosaurController.updateDinosaur)
 
-    .delete('/api/dinosaurs/:id', dinosaurController.deleteDinosaur);
+    .delete('/dinosaurs/:id', dinosaurController.deleteDinosaur)
 
 module.exports = router;

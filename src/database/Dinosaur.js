@@ -1,32 +1,42 @@
-const db = require('./db');
-const { saveToDatabase } = require('./utils');
+const pool = require('./db.js');
 
-const getAllDinosaurs = () => {
-    return db.dinosaurs;
+const getAllDinosaurs = async () => {
+    const [rows] = await pool.query('SELECT * FROM dinosaur');
+    return rows;
 };
 
-const getDinosaurById = (id) => {
-    const dinosaur = db.dinosaurs.find((dinosaur) => dinosaur.id === id);
-    return dinosaur;
+const getDinosaurById = async (id) => {
+    const [rows] = await pool.query('SELECT * FROM dinosaur WHERE id = ?', [id]);
+    return rows[0];
 };
 
-const createDinosaur = (newDinosaur) => {
-    const isAlreadyInDatabase = db.dinosaurs.findIndex(
-        (dinosaur) => dinosaur.name === newDinosaur.name
-    );
+const createDinosaur = async (newDinosaur) => {
+    const existingDinosaurInDatabase = await pool.query('SELECT * FROM dinosaur WHERE name = ?', [newDinosaur.name]);
 
-    if (isAlreadyInDatabase !== -1) {
-        return;
-    }
+    if (existingDinosaurInDatabase[0].length > 0) return;
+    
+    const [rows] = await pool.query('INSERT INTO dinosaur (name, diet) VALUES (?, ?)', [newDinosaur.name, newDinosaur.diet]);
 
-    db.dinosaurs.push(newDinosaur);
-    saveToDatabase(db);
-    return newDinosaur;
+    return { id: rows.insertId, ...newDinosaur };
+};
+
+const updateDinosaur = async (name, diet, id) => {
+    await pool.query('UPDATE dinosaur SET name = IFNULL(?, name), diet = IFNULL(?, diet) WHERE id = ?', [name, diet, id]);
+    
+    const updatedDinosaur = await getDinosaurById(id);
+    
+    return updatedDinosaur;
+};
+
+const deleteDinosaur = async (id) => {
+    return await pool.query('DELETE FROM dinosaur WHERE id = ?', [id]);
 };
 
 module.exports = {
     getAllDinosaurs,
     getDinosaurById,
-    createDinosaur
+    createDinosaur,
+    updateDinosaur,
+    deleteDinosaur
 };
     
