@@ -15,8 +15,8 @@ const createDinosaur = (newDinosaur) => {
     return createdDinosaur;
 };
 
-const updateDinosaur = (name, diet, id) => { 
-    const updatedDinosaur = Dinosaur.updateDinosaur(name, diet, id);
+const updateDinosaur = (name, diet, period, length, weight, description, id) => { 
+    const updatedDinosaur = Dinosaur.updateDinosaur(name, diet, period, length, weight, description, id);
     return updatedDinosaur;
 };
 
