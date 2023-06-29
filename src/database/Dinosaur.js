@@ -20,8 +20,8 @@ const createDinosaur = async (newDinosaur) => {
     return { id: rows.insertId, ...newDinosaur };
 };
 
-const updateDinosaur = async (name, diet, period, length, weigth, description, id) => {
-    await pool.query('UPDATE dinosaur SET name = IFNULL(?, name), diet = IFNULL(? , diet), period = IFNULL(?, period), length = IFNULL(?, length), weight = IFNULL(?, weight), description = IFNULL(?, description) WHERE id = ?', [name, diet, period, length, weigth, description, id]);
+const updateDinosaur = async (name, diet, period, length, weigth, description, imageUrl, id) => {
+    await pool.query('UPDATE dinosaur SET name = IFNULL(?, name), diet = IFNULL(? , diet), period = IFNULL(?, period), length = IFNULL(?, length), weight = IFNULL(?, weight), description = IFNULL(?, description), image = IFNULL(?, image) WHERE id = ?', [name, diet, period, length, weigth, description, imageUrl, id]);
     
     const updatedDinosaur = await getDinosaurById(id);
     

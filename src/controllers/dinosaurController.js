@@ -1,6 +1,5 @@
 const dinosaurService = require("../services/dinosaurServices");
-
-const pool = require("../database/db.js");
+const config = require("../config");
 
 const getAllDinosaurs = async (req, res) => {
     try {
@@ -49,7 +48,9 @@ const updateDinosaur = async (req, res) => {
 
         if (!dinosaur) return res.status(404).send({ status: 404, message: "Dinosaur not found" });
 
-        const updatedDinosaur = await dinosaurService.updateDinosaur(body.name, body.diet, body.period, body.length, body.weight, body.description, req.params.id);
+        const imageUrl = req.file ? `http://${config.DB_HOST}:${config.PORT}/uploads/${req.file.filename}` : dinosaur.imageUrl;
+
+        const updatedDinosaur = await dinosaurService.updateDinosaur(body.name, body.diet, body.period, body.length, body.weight, body.description, imageUrl, req.params.id);
 
         res.send({ status: 200, data: updatedDinosaur });
     } catch (error) {

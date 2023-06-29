@@ -14,6 +14,7 @@ app.use(cors({
         optionsSuccessStatus: 200
     }));
 app.use(express.json());
+
 app.use('/api', dinosaurRouter);
 
 app.use((req, res, next) => {

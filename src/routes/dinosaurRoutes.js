@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const dinosaurController = require('../controllers/dinosaurController');
+const upload = require('../config/storageConfig');
 
 router
     .get('/', (req, res) => {
@@ -13,7 +14,7 @@ router
 
     .post('/dinosaurs', dinosaurController.createDinosaur)
 
-    .patch('/dinosaurs/:id', dinosaurController.updateDinosaur)
+    .patch('/dinosaurs/:id', upload.single('image'), dinosaurController.updateDinosaur)
 
     .delete('/dinosaurs/:id', dinosaurController.deleteDinosaur)
 
