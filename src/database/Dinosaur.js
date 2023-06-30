@@ -15,7 +15,7 @@ const createDinosaur = async (newDinosaur) => {
 
     if (existingDinosaurInDatabase[0].length > 0) return;
     
-    const [rows] = await pool.query('INSERT INTO dinosaur (name, diet) VALUES (?, ?)', [newDinosaur.name, newDinosaur.diet]);
+    const [rows] = await pool.query('INSERT INTO dinosaur (name, diet, period, length, weight, description, image) VALUES (?, ?, ?, ?, ?, ?, ?)', [newDinosaur.name, newDinosaur.diet, newDinosaur.period, newDinosaur.length, newDinosaur.weight, newDinosaur.description, newDinosaur.image]);
 
     return { id: rows.insertId, ...newDinosaur };
 };

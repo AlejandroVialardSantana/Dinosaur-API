@@ -12,7 +12,7 @@ router
 
     .get('/dinosaurs/:id', dinosaurController.getDinosaurById)
 
-    .post('/dinosaurs', dinosaurController.createDinosaur)
+    .post('/dinosaurs', upload.single('image'), dinosaurController.createDinosaur)
 
     .patch('/dinosaurs/:id', upload.single('image'), dinosaurController.updateDinosaur)
 

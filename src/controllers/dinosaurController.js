@@ -28,7 +28,9 @@ const createDinosaur = async (req, res) => {
     try {
         if (!body.name || !body.diet || !body.period || !body.length || !body.weight || !body.description) return res.status(400).send({ status: 400, message: "Missing required information" });
 
-        const newDinosaur = { name: body.name, diet: body.diet, period: body.period, length: body.length, weight: body.weight, description: body.description };
+        const imageUrl = req.file ? `/uploads/${req.file.filename}` : dinosaur.imageUrl;
+
+        const newDinosaur = { name: body.name, diet: body.diet, period: body.period, length: body.length, weight: body.weight, description: body.description, image: imageUrl };
 
         const createdDinosaur = await dinosaurService.createDinosaur(newDinosaur);
 
@@ -48,7 +50,7 @@ const updateDinosaur = async (req, res) => {
 
         if (!dinosaur) return res.status(404).send({ status: 404, message: "Dinosaur not found" });
 
-        const imageUrl = req.file ? `http://${config.DB_HOST}:${config.PORT}/uploads/${req.file.filename}` : dinosaur.imageUrl;
+        const imageUrl = req.file ? `/uploads/${req.file.filename}` : dinosaur.imageUrl;
 
         const updatedDinosaur = await dinosaurService.updateDinosaur(body.name, body.diet, body.period, body.length, body.weight, body.description, imageUrl, req.params.id);
 
